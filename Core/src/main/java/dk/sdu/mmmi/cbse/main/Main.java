@@ -72,14 +72,22 @@ public class Main extends Application {
             }
         });
 
-        // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getPluginServices()) {
-            iGamePlugin.start(gameData, world);
-        }
-        for (Entity entity : world.getEntities()) {
+        this.world.addEntityAddedCallback(entity -> {
             Polygon polygon = new Polygon(entity.getPolygonCoordinates());
             polygons.put(entity, polygon);
             gameWindow.getChildren().add(polygon);
+        });
+
+        this.world.addEntityRemovedCallback(entity -> {
+            Polygon polygon = this.polygons.remove(entity);
+            if (polygon != null) {
+                gameWindow.getChildren().remove(polygon);
+            }
+        });
+
+        // Lookup all Game Plugins using ServiceLoader
+        for (IGamePluginService iGamePlugin : getPluginServices()) {
+            iGamePlugin.start(gameData, world);
         }
 
         render();

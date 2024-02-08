@@ -1,5 +1,8 @@
 package dk.sdu.mmmi.cbse.common.data;
 
+import dk.sdu.mmmi.cbse.common.utils.CallbackManager;
+import dk.sdu.mmmi.cbse.common.utils.interfaces.Callback;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,24 +10,29 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *
  * @author jcs
  */
 public class World {
 
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
 
+    private final CallbackManager<Entity> addEntityCallbacks = new CallbackManager<>();
+
+    private final CallbackManager<Entity> removeEntityCallbacks = new CallbackManager<>();
+
     public String addEntity(Entity entity) {
         entityMap.put(entity.getID(), entity);
+        this.addEntityCallbacks.callAll(entity);
         return entity.getID();
     }
 
     public void removeEntity(String entityID) {
-        entityMap.remove(entityID);
+        this.removeEntity(this.getEntity(entityID));
     }
 
     public void removeEntity(Entity entity) {
         entityMap.remove(entity.getID());
+        this.removeEntityCallbacks.callAll(entity);
     }
 
     public Collection<Entity> getEntities() {
@@ -47,4 +55,12 @@ public class World {
         return entityMap.get(ID);
     }
 
+
+    public void addEntityAddedCallback(Callback<Entity> callback) {
+        this.addEntityCallbacks.add(callback);
+    }
+
+    public void addEntityRemovedCallback(Callback<Entity> callback) {
+        this.removeEntityCallbacks.add(callback);
+    }
 }
