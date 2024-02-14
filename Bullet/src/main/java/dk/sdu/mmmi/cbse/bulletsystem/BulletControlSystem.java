@@ -9,21 +9,24 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
-    @Override
-    public void process(GameData gameData, World world) {
+	@Override
+	public void process(GameData gameData, World world) {
 
-        for (Entity bullet : world.getEntities(Bullet.class)) {
+		for (Entity bullet : world.getEntities(Bullet.class)) {
+			double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
+			double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
+			bullet.setX(bullet.getX() + changeX * 3);
+			bullet.setY(bullet.getY() + changeY * 3);
+		}
+	}
 
-        }
-    }
-
-    @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
-
-        return null;
-    }
-
-    private void setShape(Entity entity) {
-    }
-
+	@Override
+	public Entity createBullet(Entity shooter, GameData gameData) {
+		Entity bullet = new Bullet();
+		bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
+		bullet.setX(shooter.getX());
+		bullet.setY(shooter.getY());
+		bullet.setRotation(shooter.getRotation());
+		return bullet;
+	}
 }
