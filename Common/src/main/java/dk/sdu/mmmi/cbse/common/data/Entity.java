@@ -1,56 +1,21 @@
 package dk.sdu.mmmi.cbse.common.data;
 
-import java.io.Serializable;
-import java.util.UUID;
+public interface Entity {
+	String getID();
 
-public class Entity implements Serializable {
+	void setPolygonCoordinates(double... coordinates);
 
-    private final UUID ID = UUID.randomUUID();
-    
-    private double[] polygonCoordinates;
-    private double x;
-    private double y;
-    private double rotation;
-            
+	double[] getPolygonCoordinates();
 
-    public String getID() {
-        return ID.toString();
-    }
+	void setX(double x);
 
+	double getX();
 
-    public void setPolygonCoordinates(double... coordinates ) {
-        this.polygonCoordinates = coordinates;
-    }
+	void setY(double y);
 
-    public double[] getPolygonCoordinates() {
-        return polygonCoordinates;
-    }
-       
+	double getY();
 
-    public void setX(double x) {
-        this.x =x;
-    }
+	void setRotation(double rotation);
 
-    public double getX() {
-        return x;
-    }
-
-    
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-        
-
+	double getRotation();
 }

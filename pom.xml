@@ -64,7 +64,7 @@
                     <workingDirectory>.</workingDirectory>
                     <longModulepath>false</longModulepath>
                     <arguments>
-                        <!--                        
+                        <!--
                                                 On Mac Devices this line should not be commented out
                                                 <argument>-XstartOnFirstThread</argument>
                         -->
