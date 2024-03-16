@@ -4,6 +4,11 @@ import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import java.util.Collection;
+import java.util.Map;
+import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
+import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -113,9 +118,9 @@ public class Main extends Application {
 		for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
 			entityProcessorService.process(gameData, world);
 		}
-//        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-//            postEntityProcessorService.process(gameData, world);
-//        }
+		for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+			postEntityProcessorService.process(gameData, world);
+		}
 	}
 
 	private void draw() {
