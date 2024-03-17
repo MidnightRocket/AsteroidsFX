@@ -1,5 +1,7 @@
 package dk.sdu.mmmi.cbse.common.data;
 
+import dk.sdu.mmmi.cbse.common.interfaces.Entity;
+
 import java.io.Serializable;
 import java.util.UUID;
 

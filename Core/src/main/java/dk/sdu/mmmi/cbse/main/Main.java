@@ -46,28 +46,22 @@ public class Main extends Application {
 		scene.setOnKeyPressed(event -> {
 			if (event.getCode().equals(KeyCode.LEFT)) {
 				gameData.getKeys().setKey(GameKeys.LEFT, true);
-			}
-			if (event.getCode().equals(KeyCode.RIGHT)) {
+			} else if (event.getCode().equals(KeyCode.RIGHT)) {
 				gameData.getKeys().setKey(GameKeys.RIGHT, true);
-			}
-			if (event.getCode().equals(KeyCode.UP)) {
+			} else if (event.getCode().equals(KeyCode.UP)) {
 				gameData.getKeys().setKey(GameKeys.UP, true);
-			}
-			if (event.getCode().equals(KeyCode.SPACE)) {
+			} else if (event.getCode().equals(KeyCode.SPACE)) {
 				gameData.getKeys().setKey(GameKeys.SPACE, true);
 			}
 		});
 		scene.setOnKeyReleased(event -> {
 			if (event.getCode().equals(KeyCode.LEFT)) {
 				gameData.getKeys().setKey(GameKeys.LEFT, false);
-			}
-			if (event.getCode().equals(KeyCode.RIGHT)) {
+			} else if (event.getCode().equals(KeyCode.RIGHT)) {
 				gameData.getKeys().setKey(GameKeys.RIGHT, false);
-			}
-			if (event.getCode().equals(KeyCode.UP)) {
+			} else if (event.getCode().equals(KeyCode.UP)) {
 				gameData.getKeys().setKey(GameKeys.UP, false);
-			}
-			if (event.getCode().equals(KeyCode.SPACE)) {
+			} else if (event.getCode().equals(KeyCode.SPACE)) {
 				gameData.getKeys().setKey(GameKeys.SPACE, false);
 			}
 		});

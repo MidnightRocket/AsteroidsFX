@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.common.data;
 
+import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.utils.CallbackManager;
 import dk.sdu.mmmi.cbse.common.utils.interfaces.Callback;
 

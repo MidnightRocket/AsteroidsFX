@@ -1,7 +1,7 @@
 package dk.sdu.mmmi.cbse.asteroid;
 
 import dk.sdu.mmmi.cbse.common.asteroid.IAsteroidSplitter;
-import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.data.World;
 
 /**

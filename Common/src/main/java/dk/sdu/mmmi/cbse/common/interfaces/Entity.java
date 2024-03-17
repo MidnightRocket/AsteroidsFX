@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.common.data;
+package dk.sdu.mmmi.cbse.common.interfaces;
 
 public interface Entity {
 	String getID();

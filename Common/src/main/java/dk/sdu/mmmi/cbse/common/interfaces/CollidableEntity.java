@@ -1,4 +1,6 @@
-package dk.sdu.mmmi.cbse.common.data;
+package dk.sdu.mmmi.cbse.common.interfaces;
+
+import dk.sdu.mmmi.cbse.common.data.World;
 
 public interface CollidableEntity extends Entity, GameElement {
 	/**
@@ -9,7 +11,6 @@ public interface CollidableEntity extends Entity, GameElement {
 	 * @param world
 	 * @param otherEntity
 	 * @return
-	 * @param <O>
 	 */
-	public <O extends CollidableEntity> boolean collide(World world, O otherEntity);
+	public void collide(World world, CollidableEntity otherEntity);
 }

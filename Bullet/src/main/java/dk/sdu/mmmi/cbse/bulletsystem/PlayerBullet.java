@@ -1,7 +1,7 @@
 package dk.sdu.mmmi.cbse.bulletsystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
-import dk.sdu.mmmi.cbse.common.data.CollidableEntity;
+import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.data.World;
 
 public class PlayerBullet extends Bullet {
@@ -25,8 +25,7 @@ public class PlayerBullet extends Bullet {
 	}
 
 	@Override
-	public <O extends CollidableEntity> boolean collide(World world, O otherEntity) {
+	public void collide(World world, CollidableEntity otherEntity) {
 		world.removeEntity(this);
-		return true;
 	}
 }

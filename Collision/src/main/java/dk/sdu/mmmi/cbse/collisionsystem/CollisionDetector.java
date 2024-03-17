@@ -1,10 +1,10 @@
 package dk.sdu.mmmi.cbse.collisionsystem;
 
-import dk.sdu.mmmi.cbse.common.data.CollidableEntity;
-import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
+import dk.sdu.mmmi.cbse.common.interfaces.IntersectsCallback;
 
 public class CollisionDetector implements IPostEntityProcessingService {
 
