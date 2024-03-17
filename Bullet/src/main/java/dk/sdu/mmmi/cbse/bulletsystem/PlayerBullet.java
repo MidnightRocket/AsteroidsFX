@@ -1,11 +1,13 @@
 package dk.sdu.mmmi.cbse.bulletsystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
+import dk.sdu.mmmi.cbse.common.data.CollidableEntity;
+import dk.sdu.mmmi.cbse.common.data.World;
 
 public class PlayerBullet extends Bullet {
 	private long ttl;
 
-	public PlayerBullet(long ttl) {
+	PlayerBullet(long ttl) {
 		this.ttl = ttl;
 	}
 
@@ -20,5 +22,11 @@ public class PlayerBullet extends Bullet {
 	long decrementTtl() {
 		this.ttl--;
 		return this.ttl;
+	}
+
+	@Override
+	public <O extends CollidableEntity> boolean collide(World world, O otherEntity) {
+		world.removeEntity(this);
+		return true;
 	}
 }
