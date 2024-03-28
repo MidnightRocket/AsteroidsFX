@@ -4,38 +4,36 @@ import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 
 public class GameData {
 
-	private final int displayStart = 0;
+	private final GameKeys keys = new GameKeys();
 	private int displayWidth = 800;
 	private int displayHeight = 800;
-	private final GameKeys keys = new GameKeys();
-
 
 	public GameKeys getKeys() {
 		return keys;
-	}
-
-	public void setDisplayWidth(int width) {
-		this.displayWidth = width;
 	}
 
 	public int getDisplayWidth() {
 		return displayWidth;
 	}
 
-	public void setDisplayHeight(int height) {
-		this.displayHeight = height;
+	public void setDisplayWidth(int width) {
+		this.displayWidth = width;
 	}
 
 	public int getDisplayHeight() {
 		return displayHeight;
 	}
 
+	public void setDisplayHeight(int height) {
+		this.displayHeight = height;
+	}
 
 	public boolean isEntityWithinFrame(Entity entity) {
-		return entity.getX() >= this.displayStart &&
-				entity.getY() >= this.displayStart &&
-				entity.getX() <= this.getDisplayWidth() &&
-				entity.getY() <= this.getDisplayHeight();
+		int displayStart = 0;
+		return entity.getX() >= displayStart
+				&& entity.getY() >= displayStart
+				&& entity.getX() <= this.getDisplayWidth()
+				&& entity.getY() <= this.getDisplayHeight();
 	}
 
 }
