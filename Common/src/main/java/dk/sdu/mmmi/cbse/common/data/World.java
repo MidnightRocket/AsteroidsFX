@@ -45,7 +45,7 @@ public class World {
 		List<E> r = new ArrayList<>();
 		for (Entity e : getEntities()) {
 			for (Class<E> entityType : entityTypes) {
-				if (entityType.isAssignableFrom(e.getClass())) {
+				if (entityType.isInstance(e)) {
 					r.add(entityType.cast(e));
 				}
 			}
