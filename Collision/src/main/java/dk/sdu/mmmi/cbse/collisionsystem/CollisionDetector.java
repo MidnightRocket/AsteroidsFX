@@ -2,11 +2,22 @@ package dk.sdu.mmmi.cbse.collisionsystem;
 
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.interfaces.IntersectsCallback;
+import dk.sdu.mmmi.cbse.common.services.ICollisionDetectionService;
 
-public class CollisionDetector implements IPostEntityProcessingService {
+public class CollisionDetector implements ICollisionDetectionService {
+
+	private IntersectsCallback intersectsCallback = new IntersectsCallback() {
+		/*
+		 * Providing default callback which returns false.
+		 * This is to avoid calling method on null pointer.
+		 */
+		@Override
+		public boolean intersects(CollidableEntity entity1, CollidableEntity entity2) {
+			return false;
+		}
+	};
 
 	public CollisionDetector() {
 	}
@@ -18,9 +29,10 @@ public class CollisionDetector implements IPostEntityProcessingService {
 			for (CollidableEntity entity2 : world.getEntities(CollidableEntity.class)) {
 
 				// if the two entities are identical, skip the iteration
-				if (entity1.getID().equals(entity2.getID())) {
+				if (entity1.equals(entity2)) {
 					continue;
 				}
+
 
 				// CollisionDetection
 				if (this.collides(entity1, entity2)) {
@@ -32,8 +44,12 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
 	}
 
-	public Boolean collides(Entity entity1, Entity entity2) {
-		return false;
+	public Boolean collides(CollidableEntity entity1, CollidableEntity entity2) {
+		return this.intersectsCallback.intersects(entity1, entity2);
 	}
 
+	@Override
+	public void setIntersectsCallback(IntersectsCallback callback) {
+		this.intersectsCallback = callback;
+	}
 }

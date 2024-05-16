@@ -1,6 +1,8 @@
 package dk.sdu.mmmi.cbse.main;
 
 import dk.sdu.mmmi.cbse.common.data.*;
+import dk.sdu.mmmi.cbse.common.interfaces.Entity;
+import dk.sdu.mmmi.cbse.common.services.ICollisionDetectionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
@@ -17,13 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static java.util.stream.Collectors.toList;
 
 public class Main extends Application {
 
@@ -115,6 +110,14 @@ public class Main extends Application {
 		for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
 			postEntityProcessorService.process(gameData, world);
 		}
+
+		this.getCollisionDetectionServices().forEach(service -> {
+			service.setIntersectsCallback((entity1, entity2) -> {
+				if (! this.polygons.containsKey(entity1) || ! this.polygons.containsKey(entity2)) return false;
+				return this.polygons.get(entity1).getBoundsInParent().intersects(this.polygons.get(entity2).getBoundsInParent());
+			});
+			service.process(gameData, world);
+		});
 	}
 
 	private void draw() {
@@ -136,5 +139,9 @@ public class Main extends Application {
 
 	private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
 		return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+	}
+
+	private Collection<? extends ICollisionDetectionService> getCollisionDetectionServices() {
+		return ServiceLoader.load(ICollisionDetectionService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
 	}
 }
