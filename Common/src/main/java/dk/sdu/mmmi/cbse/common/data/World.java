@@ -4,33 +4,40 @@ import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.utils.CallbackManager;
 import dk.sdu.mmmi.cbse.common.utils.interfaces.Callback;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 public class World {
-	private final Collection<Entity> entityMap = new HashSet<>();
+	private final Map<Class<? extends Entity>, Collection<Entity>> entityClassMap = new HashMap<>();
 
 	private final CallbackManager<Entity> addEntityCallbacks = new CallbackManager<>();
 	private final CallbackManager<Entity> removeEntityCallbacks = new CallbackManager<>();
 
+	private static <E extends Entity> Collection<E> collectStreamToEntityType(final Stream<Collection<Entity>> stream) {
+		return stream.<Entity>mapMulti(Iterable::forEach).map(e -> (E) e).collect(toUnmodifiableSet());
+	}
+
 	public boolean addEntity(final Entity entity) {
-		if (!this.entityMap.add(entity)) return false;
+		final Class<? extends Entity> entityType = entity.getClass();
+		if (!this.entityClassMap.computeIfAbsent(entityType, k -> new HashSet<>()).add(entity)) return false;
+
 		this.addEntityCallbacks.callAll(entity);
 		return true;
 	}
 
-
 	public boolean removeEntity(final Entity entity) {
-		if (!this.entityMap.remove(entity)) return false;
+		final Class<? extends Entity> entityType = entity.getClass();
+		if (!this.entityClassMap.containsKey(entityType)) return false;
+		if (!this.entityClassMap.get(entityType).remove(entity)) return false;
+
 		this.removeEntityCallbacks.callAll(entity);
 		return true;
 	}
 
 	public Collection<Entity> getEntities() {
-		return Collections.unmodifiableCollection(this.entityMap);
+		return this.entityClassMap.values().stream().<Entity>mapMulti(Iterable::forEach).collect(toUnmodifiableSet());
 	}
 
 	/**
@@ -41,7 +48,8 @@ public class World {
 	 * @return A {@link Collections#unmodifiableCollection read-only Collection} with the entities of {@code entityType}.
 	 */
 	public final <E extends Entity> Collection<E> getEntitiesByClass(final Class<E> entityType) {
-		return this.getEntities().stream().filter(entityType::isInstance).map(entityType::cast).collect(toUnmodifiableSet());
+		final Stream<Collection<Entity>> stream = this.entityClassMap.entrySet().stream().filter(e -> entityType.isAssignableFrom(e.getKey())).map(Map.Entry::getValue);
+		return collectStreamToEntityType(stream);
 	}
 
 	/**
@@ -52,9 +60,8 @@ public class World {
 	 * @return A {@link Collection} of the removed entities.
 	 */
 	public <E extends Entity> Collection<E> removeEntitiesByClass(final Class<E> entityType) {
-		final Collection<E> entities = this.getEntitiesByClass(entityType);
-		entities.forEach(this::removeEntity);
-		return entities;
+		final Collection<Class<? extends Entity>> entityTypesToRemove = this.entityClassMap.keySet().stream().filter(entityType::isAssignableFrom).collect(toUnmodifiableSet());
+		return collectStreamToEntityType(entityTypesToRemove.stream().map(this.entityClassMap::remove));
 	}
 
 	public void addEntityAddedCallback(final Callback<Entity> callback) {
