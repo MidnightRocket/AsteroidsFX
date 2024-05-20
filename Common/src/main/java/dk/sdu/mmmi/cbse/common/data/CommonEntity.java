@@ -20,6 +20,10 @@ public class CommonEntity implements Serializable, Entity {
 		return this.id.toString();
 	}
 
+	@Override
+	public double[] getPolygonCoordinates() {
+		return this.polygonCoordinates;
+	}
 
 	@Override
 	public void setPolygonCoordinates(double... coordinates) {
@@ -27,25 +31,13 @@ public class CommonEntity implements Serializable, Entity {
 	}
 
 	@Override
-	public double[] getPolygonCoordinates() {
-		return this.polygonCoordinates;
-	}
-
-
-	@Override
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	@Override
 	public double getX() {
 		return this.x;
 	}
 
-
 	@Override
-	public void setY(double y) {
-		this.y = y;
+	public void setX(double x) {
+		this.x = x;
 	}
 
 	@Override
@@ -54,13 +46,18 @@ public class CommonEntity implements Serializable, Entity {
 	}
 
 	@Override
-	public void setRotation(double rotation) {
-		this.rotation = rotation;
+	public void setY(double y) {
+		this.y = y;
 	}
 
 	@Override
 	public double getRotation() {
 		return this.rotation;
+	}
+
+	@Override
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
 	}
 
 

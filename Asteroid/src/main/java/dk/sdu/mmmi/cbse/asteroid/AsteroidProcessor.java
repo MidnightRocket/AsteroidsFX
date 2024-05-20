@@ -2,9 +2,9 @@ package dk.sdu.mmmi.cbse.asteroid;
 
 import dk.sdu.mmmi.cbse.common.asteroid.Asteroid;
 import dk.sdu.mmmi.cbse.common.asteroid.IAsteroidSplitter;
-import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class AsteroidProcessor implements IEntityProcessingService {
@@ -43,6 +43,7 @@ public class AsteroidProcessor implements IEntityProcessingService {
 
 	/**
 	 * Dependency Injection using OSGi Declarative Services.
+	 *
 	 * @param asteroidSplitter The asteroid splitter logic
 	 */
 	public void setAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {

@@ -1,8 +1,8 @@
 package dk.sdu.mmmi.cbse.bulletsystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
-import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.metadata.GameElementType;
 
 public class PlayerBullet extends Bullet {

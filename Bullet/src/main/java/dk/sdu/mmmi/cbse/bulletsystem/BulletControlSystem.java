@@ -2,12 +2,14 @@ package dk.sdu.mmmi.cbse.bulletsystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
+
+	private final int speed = 3;
 
 	private static void updateBulletPosition(Bullet bullet, int speed) {
 		double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
@@ -15,8 +17,6 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 		bullet.setX(bullet.getX() + changeX * speed);
 		bullet.setY(bullet.getY() + changeY * speed);
 	}
-
-	private final int speed = 3;
 
 	@Override
 	public void process(GameData gameData, World world) {

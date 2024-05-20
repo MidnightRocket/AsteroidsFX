@@ -3,19 +3,19 @@ package dk.sdu.mmmi.cbse.common.interfaces;
 public interface Entity {
 	String getId();
 
-	void setPolygonCoordinates(double... coordinates);
-
 	double[] getPolygonCoordinates();
 
-	void setX(double x);
+	void setPolygonCoordinates(double... coordinates);
 
 	double getX();
 
-	void setY(double y);
+	void setX(double x);
 
 	double getY();
 
-	void setRotation(double rotation);
+	void setY(double y);
 
 	double getRotation();
+
+	void setRotation(double rotation);
 }
