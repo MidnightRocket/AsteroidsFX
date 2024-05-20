@@ -7,9 +7,8 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import java.util.Random;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
-	private final double speed = 10;
 	private static Random RANDOM = new Random();
-
+	private final double speed = 10;
 
 	@Override
 	public void process(final GameData gameData, final World world) {
@@ -20,13 +19,9 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
 
 		for (final Asteroid asteroid : world.getEntitiesByClass(Asteroid.class)) {
-			final double rotation = Math.toRadians(asteroid.getRotation());
-			final double changeX = Math.cos(rotation) * asteroid.getSpeed();
-			final double changeY = Math.sin(rotation) * asteroid.getSpeed();
-
 			final boolean withinFrameBefore = gameData.isEntityWithinFrame(asteroid);
 
-			asteroid.move(changeX, changeY);
+			asteroid.move(asteroid.getSpeed());
 
 			if (asteroid.getX() < 0) {
 				asteroid.setX(asteroid.getX() - gameData.getDisplayWidth());

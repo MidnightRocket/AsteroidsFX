@@ -46,4 +46,11 @@ public interface Entity {
 	default void move(final double x, final double y) {
 		this.move(new BasicVector(x, y));
 	}
+
+	default void move(final double speed) {
+		final double rotation = Math.toRadians(this.getRotation());
+		final double changeX = Math.cos(rotation) * speed;
+		final double changeY = Math.sin(rotation) * speed;
+		this.move(changeX, changeY);
+	}
 }

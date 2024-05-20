@@ -14,9 +14,7 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 	private final int speed = 3;
 
 	private static void updateBulletPosition(final Bullet bullet, final int speed) {
-		final double changeX = Math.cos(Math.toRadians(bullet.getRotation())) * speed;
-		final double changeY = Math.sin(Math.toRadians(bullet.getRotation())) * speed;
-		bullet.move(changeX, changeY);
+		bullet.move(speed);
 	}
 
 	@Override
