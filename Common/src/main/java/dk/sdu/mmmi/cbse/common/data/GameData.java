@@ -35,14 +35,14 @@ public class GameData {
 	}
 
 	public boolean isEntityWithinFrame(final Entity entity) {
-		return entity.getX() >= displayStart
-				&& entity.getY() >= displayStart
+		return entity.getX() >= this.displayStart
+				&& entity.getY() >= this.displayStart
 				&& entity.getX() <= this.getDisplayWidth()
 				&& entity.getY() <= this.getDisplayHeight();
 	}
 
 	public Random getRandom() {
-		return random;
+		return this.random;
 	}
 
 	public IVector getCenter() {
@@ -60,8 +60,8 @@ public class GameData {
 	}
 
 	public IVector getRandomEdgeSpawnCoordinates() {
-		if (this.random.nextBoolean()) return getRandomSpawnFromVerticalSides();
-		return getRandomSpawnFromHorizontalSides();
+		if (this.random.nextBoolean()) return this.getRandomSpawnFromVerticalSides();
+		return this.getRandomSpawnFromHorizontalSides();
 	}
 
 	private IVector getRandomSpawnFromHorizontalSides() {

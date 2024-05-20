@@ -8,7 +8,7 @@ import dk.sdu.mmmi.cbse.common.vector.IVector;
 
 import java.util.Random;
 
-public class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
+public final class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 	private static final Random RANDOM = new Random();
 
 	private final double size;
@@ -24,7 +24,7 @@ public class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 		return asteroid;
 	}
 
-	private static IVector[] calculatePolygonCoordinates(int polygonEdges, double radius) {
+	private static IVector[] calculatePolygonCoordinates(final int polygonEdges, final double radius) {
 		final IVector[] polygonCoordinates = new IVector[polygonEdges];
 		// loops over all vertices in a regular polygon and creates and adds coordinates for each, based on the radius and the amount of edges
 		for (int vertex = 0; vertex < polygonCoordinates.length; vertex++) {
@@ -70,6 +70,6 @@ public class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 
 
 	double getSpeed() {
-		return 100 / size;
+		return 100 / this.size;
 	}
 }

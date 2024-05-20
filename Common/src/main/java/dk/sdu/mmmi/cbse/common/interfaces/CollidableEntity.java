@@ -1,10 +1,6 @@
 package dk.sdu.mmmi.cbse.common.interfaces;
 
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.vector.IVector;
-
-import java.util.Arrays;
-import java.util.Comparator;
 
 public interface CollidableEntity extends Entity, GameElement {
 	/**

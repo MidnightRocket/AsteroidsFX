@@ -5,7 +5,6 @@ import dk.sdu.mmmi.cbse.common.vector.BasicVector;
 import dk.sdu.mmmi.cbse.common.vector.IVector;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class CommonEntity implements Serializable, Entity {
 	private final BasicVector coordinates = new BasicVector();

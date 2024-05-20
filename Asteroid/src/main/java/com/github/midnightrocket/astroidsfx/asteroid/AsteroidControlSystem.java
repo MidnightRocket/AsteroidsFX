@@ -8,13 +8,12 @@ import dk.sdu.mmmi.cbse.common.vector.IVector;
 import java.util.Random;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
-	private static Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 
 	@Override
 	public void process(final GameData gameData, final World world) {
 		if (Math.random() > 0.995) {
 			world.addEntity(this.createAsteroid(gameData));
-			System.out.println("Create asteroid");
 		}
 
 
