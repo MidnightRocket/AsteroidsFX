@@ -34,52 +34,52 @@ public class Main extends Application {
 	@Override
 	public void start(Stage window) throws Exception {
 		Text text = new Text(10, 20, "Destroyed asteroids: 0");
-		gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-		gameWindow.getChildren().add(text);
+		this.gameWindow.setPrefSize(this.gameData.getDisplayWidth(), this.gameData.getDisplayHeight());
+		this.gameWindow.getChildren().add(text);
 
-		Scene scene = new Scene(gameWindow);
+		Scene scene = new Scene(this.gameWindow);
 		scene.setOnKeyPressed(event -> {
 			if (event.getCode().equals(KeyCode.LEFT)) {
-				gameData.getKeys().setKey(GameKeys.LEFT, true);
+				this.gameData.getKeys().setKey(GameKeys.LEFT, true);
 			} else if (event.getCode().equals(KeyCode.RIGHT)) {
-				gameData.getKeys().setKey(GameKeys.RIGHT, true);
+				this.gameData.getKeys().setKey(GameKeys.RIGHT, true);
 			} else if (event.getCode().equals(KeyCode.UP)) {
-				gameData.getKeys().setKey(GameKeys.UP, true);
+				this.gameData.getKeys().setKey(GameKeys.UP, true);
 			} else if (event.getCode().equals(KeyCode.SPACE)) {
-				gameData.getKeys().setKey(GameKeys.SPACE, true);
+				this.gameData.getKeys().setKey(GameKeys.SPACE, true);
 			}
 		});
 		scene.setOnKeyReleased(event -> {
 			if (event.getCode().equals(KeyCode.LEFT)) {
-				gameData.getKeys().setKey(GameKeys.LEFT, false);
+				this.gameData.getKeys().setKey(GameKeys.LEFT, false);
 			} else if (event.getCode().equals(KeyCode.RIGHT)) {
-				gameData.getKeys().setKey(GameKeys.RIGHT, false);
+				this.gameData.getKeys().setKey(GameKeys.RIGHT, false);
 			} else if (event.getCode().equals(KeyCode.UP)) {
-				gameData.getKeys().setKey(GameKeys.UP, false);
+				this.gameData.getKeys().setKey(GameKeys.UP, false);
 			} else if (event.getCode().equals(KeyCode.SPACE)) {
-				gameData.getKeys().setKey(GameKeys.SPACE, false);
+				this.gameData.getKeys().setKey(GameKeys.SPACE, false);
 			}
 		});
 
 		this.world.addEntityAddedCallback(entity -> {
 			Polygon polygon = new Polygon(entity.getPolygonCoordinates());
-			polygons.put(entity, polygon);
-			gameWindow.getChildren().add(polygon);
+			this.polygons.put(entity, polygon);
+			this.gameWindow.getChildren().add(polygon);
 		});
 
 		this.world.addEntityRemovedCallback(entity -> {
 			Polygon polygon = this.polygons.remove(entity);
 			if (polygon != null) {
-				gameWindow.getChildren().remove(polygon);
+				this.gameWindow.getChildren().remove(polygon);
 			}
 		});
 
 		// Lookup all Game Plugins using ServiceLoader
-		for (IGamePluginService iGamePlugin : getPluginServices()) {
-			iGamePlugin.start(gameData, world);
+		for (IGamePluginService iGamePlugin : this.getPluginServices()) {
+			iGamePlugin.start(this.gameData, this.world);
 		}
 
-		render();
+		this.render();
 
 		window.setScene(scene);
 		window.setTitle("ASTEROIDS");
@@ -93,9 +93,9 @@ public class Main extends Application {
 
 			@Override
 			public void handle(long now) {
-				update();
-				draw();
-				gameData.getKeys().update();
+				Main.this.update();
+				Main.this.draw();
+				Main.this.gameData.getKeys().update();
 			}
 
 		}.start();
@@ -104,25 +104,25 @@ public class Main extends Application {
 	private void update() {
 
 		// Update
-		for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-			entityProcessorService.process(gameData, world);
+		for (IEntityProcessingService entityProcessorService : this.getEntityProcessingServices()) {
+			entityProcessorService.process(this.gameData, this.world);
 		}
-		for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-			postEntityProcessorService.process(gameData, world);
+		for (IPostEntityProcessingService postEntityProcessorService : this.getPostEntityProcessingServices()) {
+			postEntityProcessorService.process(this.gameData, this.world);
 		}
 
 		this.getCollisionDetectionServices().forEach(service -> {
 			service.setIntersectsCallback((entity1, entity2) -> {
-				if (! this.polygons.containsKey(entity1) || ! this.polygons.containsKey(entity2)) return false;
+				if (!this.polygons.containsKey(entity1) || !this.polygons.containsKey(entity2)) return false;
 				return this.polygons.get(entity1).getBoundsInParent().intersects(this.polygons.get(entity2).getBoundsInParent());
 			});
-			service.process(gameData, world);
+			service.process(this.gameData, this.world);
 		});
 	}
 
 	private void draw() {
-		for (Entity entity : world.getEntities()) {
-			Polygon polygon = polygons.get(entity);
+		for (Entity entity : this.world.getEntities()) {
+			Polygon polygon = this.polygons.get(entity);
 			polygon.setTranslateX(entity.getX());
 			polygon.setTranslateY(entity.getY());
 			polygon.setRotate(entity.getRotation());

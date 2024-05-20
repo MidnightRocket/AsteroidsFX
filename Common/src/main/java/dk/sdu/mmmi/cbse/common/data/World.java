@@ -22,9 +22,9 @@ public class World {
 	private final CallbackManager<Entity> removeEntityCallbacks = new CallbackManager<>();
 
 	public String addEntity(Entity entity) {
-		entityMap.put(entity.getID(), entity);
+		this.entityMap.put(entity.getId(), entity);
 		this.addEntityCallbacks.callAll(entity);
-		return entity.getID();
+		return entity.getId();
 	}
 
 	public void removeEntity(String entityID) {
@@ -32,18 +32,18 @@ public class World {
 	}
 
 	public void removeEntity(Entity entity) {
-		entityMap.remove(entity.getID());
+		this.entityMap.remove(entity.getId());
 		this.removeEntityCallbacks.callAll(entity);
 	}
 
 	public Collection<Entity> getEntities() {
-		return entityMap.values();
+		return this.entityMap.values();
 	}
 
 	@SafeVarargs
 	public final <E extends Entity> List<E> getEntities(Class<E>... entityTypes) {
 		List<E> r = new ArrayList<>();
-		for (Entity e : getEntities()) {
+		for (Entity e : this.getEntities()) {
 			for (Class<E> entityType : entityTypes) {
 				if (entityType.isInstance(e)) {
 					r.add(entityType.cast(e));
@@ -53,8 +53,8 @@ public class World {
 		return r;
 	}
 
-	public Entity getEntity(String ID) {
-		return entityMap.get(ID);
+	public Entity getEntity(String id) {
+		return this.entityMap.get(id);
 	}
 
 

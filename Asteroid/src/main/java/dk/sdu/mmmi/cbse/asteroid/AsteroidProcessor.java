@@ -42,13 +42,14 @@ public class AsteroidProcessor implements IEntityProcessingService {
 	}
 
 	/**
-	 * Dependency Injection using OSGi Declarative Services
+	 * Dependency Injection using OSGi Declarative Services.
+	 * @param asteroidSplitter The asteroid splitter logic
 	 */
 	public void setAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
 		this.asteroidSplitter = asteroidSplitter;
 	}
 
-	public void removeAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
+	public void removeAsteroidSplitter() {
 		this.asteroidSplitter = null;
 	}
 

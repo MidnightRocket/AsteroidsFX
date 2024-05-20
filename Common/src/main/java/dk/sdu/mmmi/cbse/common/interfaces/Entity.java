@@ -1,7 +1,7 @@
 package dk.sdu.mmmi.cbse.common.interfaces;
 
 public interface Entity {
-	String getID();
+	String getId();
 
 	void setPolygonCoordinates(double... coordinates);
 

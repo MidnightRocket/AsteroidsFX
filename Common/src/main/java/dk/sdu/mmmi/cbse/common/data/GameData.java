@@ -9,11 +9,11 @@ public class GameData {
 	private int displayHeight = 800;
 
 	public GameKeys getKeys() {
-		return keys;
+		return this.keys;
 	}
 
 	public int getDisplayWidth() {
-		return displayWidth;
+		return this.displayWidth;
 	}
 
 	public void setDisplayWidth(int width) {
@@ -21,7 +21,7 @@ public class GameData {
 	}
 
 	public int getDisplayHeight() {
-		return displayHeight;
+		return this.displayHeight;
 	}
 
 	public void setDisplayHeight(int height) {

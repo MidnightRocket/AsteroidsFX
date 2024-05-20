@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class CommonEntity implements Serializable, Entity {
 
-	private final UUID ID = UUID.randomUUID();
+	private final UUID id = UUID.randomUUID();
 
 	private double[] polygonCoordinates;
 	private double x;
@@ -16,8 +16,8 @@ public class CommonEntity implements Serializable, Entity {
 
 
 	@Override
-	public String getID() {
-		return ID.toString();
+	public String getId() {
+		return this.id.toString();
 	}
 
 
@@ -28,7 +28,7 @@ public class CommonEntity implements Serializable, Entity {
 
 	@Override
 	public double[] getPolygonCoordinates() {
-		return polygonCoordinates;
+		return this.polygonCoordinates;
 	}
 
 
@@ -39,7 +39,7 @@ public class CommonEntity implements Serializable, Entity {
 
 	@Override
 	public double getX() {
-		return x;
+		return this.x;
 	}
 
 
@@ -50,7 +50,7 @@ public class CommonEntity implements Serializable, Entity {
 
 	@Override
 	public double getY() {
-		return y;
+		return this.y;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class CommonEntity implements Serializable, Entity {
 
 	@Override
 	public double getRotation() {
-		return rotation;
+		return this.rotation;
 	}
 
 
