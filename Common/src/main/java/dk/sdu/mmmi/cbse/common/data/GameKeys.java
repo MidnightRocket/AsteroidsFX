@@ -1,36 +1,34 @@
 package dk.sdu.mmmi.cbse.common.data;
 
 public class GameKeys {
-
-	public static final int UP = 0;
-	public static final int LEFT = 1;
-	public static final int RIGHT = 2;
-	public static final int SPACE = 3;
-	private static final int NUM_KEYS = 4;
-	private static boolean[] keys;
-	private static boolean[] pkeys;
+	private final boolean[] keys;
+	private final boolean[] previousKeys;
 
 	public GameKeys() {
-		keys = new boolean[NUM_KEYS];
-		pkeys = new boolean[NUM_KEYS];
+		this.keys = new boolean[Key.values().length];
+		this.previousKeys = new boolean[Key.values().length];
 	}
 
 	public void update() {
-		for (int i = 0; i < NUM_KEYS; i++) {
-			pkeys[i] = keys[i];
-		}
+		System.arraycopy(this.keys, 0, this.previousKeys, 0, this.keys.length);
 	}
 
-	public void setKey(int k, boolean b) {
-		keys[k] = b;
+	public void setKey(final Key k, final boolean state) {
+		this.keys[k.ordinal()] = state;
 	}
 
-	public boolean isDown(int k) {
-		return keys[k];
+	public boolean isDown(final Key k) {
+		return this.keys[k.ordinal()];
 	}
 
-	public boolean isPressed(int k) {
-		return keys[k] && !pkeys[k];
+	public boolean isPressed(final Key k) {
+		return this.keys[k.ordinal()] && !this.previousKeys[k.ordinal()];
 	}
 
+	public enum Key {
+		UP,
+		LEFT,
+		RIGHT,
+		SPACE;
+	}
 }

@@ -14,7 +14,7 @@ public class CollisionDetector implements ICollisionDetectionService {
 		 * This is to avoid calling method on null pointer.
 		 */
 		@Override
-		public boolean intersects(CollidableEntity entity1, CollidableEntity entity2) {
+		public boolean intersects(final CollidableEntity entity1, final CollidableEntity entity2) {
 			return false;
 		}
 	};
@@ -23,10 +23,10 @@ public class CollisionDetector implements ICollisionDetectionService {
 	}
 
 	@Override
-	public void process(GameData gameData, World world) {
+	public void process(final GameData gameData, final World world) {
 		// two for loops for all entities in the world
-		for (CollidableEntity entity1 : world.getEntities(CollidableEntity.class)) {
-			for (CollidableEntity entity2 : world.getEntities(CollidableEntity.class)) {
+		for (final CollidableEntity entity1 : world.getEntitiesByClass(CollidableEntity.class)) {
+			for (final CollidableEntity entity2 : world.getEntitiesByClass(CollidableEntity.class)) {
 
 				// if the two entities are identical, skip the iteration
 				if (entity1.equals(entity2)) {
@@ -44,12 +44,12 @@ public class CollisionDetector implements ICollisionDetectionService {
 
 	}
 
-	public Boolean collides(CollidableEntity entity1, CollidableEntity entity2) {
+	public Boolean collides(final CollidableEntity entity1, final CollidableEntity entity2) {
 		return this.intersectsCallback.intersects(entity1, entity2);
 	}
 
 	@Override
-	public void setIntersectsCallback(IntersectsCallback callback) {
+	public void setIntersectsCallback(final IntersectsCallback callback) {
 		this.intersectsCallback = callback;
 	}
 }

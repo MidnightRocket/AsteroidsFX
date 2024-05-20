@@ -12,11 +12,11 @@ public class AsteroidProcessor implements IEntityProcessingService {
 	private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
 
 	@Override
-	public void process(GameData gameData, World world) {
+	public void process(final GameData gameData, final World world) {
 
-		for (Entity asteroid : world.getEntities(Asteroid.class)) {
-			double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
-			double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
+		for (final Entity asteroid : world.getEntitiesByClass(Asteroid.class)) {
+			final double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
+			final double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
 
 			asteroid.setX(asteroid.getX() + changeX * 0.5);
 			asteroid.setY(asteroid.getY() + changeY * 0.5);
@@ -46,7 +46,7 @@ public class AsteroidProcessor implements IEntityProcessingService {
 	 *
 	 * @param asteroidSplitter The asteroid splitter logic
 	 */
-	public void setAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
+	public void setAsteroidSplitter(final IAsteroidSplitter asteroidSplitter) {
 		this.asteroidSplitter = asteroidSplitter;
 	}
 

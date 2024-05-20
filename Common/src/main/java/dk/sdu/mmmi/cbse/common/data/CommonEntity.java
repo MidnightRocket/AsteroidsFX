@@ -1,53 +1,28 @@
 package dk.sdu.mmmi.cbse.common.data;
 
 import dk.sdu.mmmi.cbse.common.interfaces.Entity;
+import dk.sdu.mmmi.cbse.common.vector.BasicVector;
+import dk.sdu.mmmi.cbse.common.vector.IVector;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.Arrays;
 
 public class CommonEntity implements Serializable, Entity {
-
-	private final UUID id = UUID.randomUUID();
-
-	private double[] polygonCoordinates;
-	private double x;
-	private double y;
+	private final BasicVector coordinates = new BasicVector();
+	private IVector[] polygonCoordinates;
 	private double rotation;
 
-
 	@Override
-	public String getId() {
-		return this.id.toString();
+	public double[] getPolygonCoordinatesValues() {
+		return Arrays.stream(this.polygonCoordinates).mapMultiToDouble((c, output) -> {
+			output.accept(c.getX());
+			output.accept(c.getY());
+		}).toArray();
 	}
 
 	@Override
-	public double[] getPolygonCoordinates() {
-		return this.polygonCoordinates;
-	}
-
-	@Override
-	public void setPolygonCoordinates(double... coordinates) {
-		this.polygonCoordinates = coordinates;
-	}
-
-	@Override
-	public double getX() {
-		return this.x;
-	}
-
-	@Override
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	@Override
-	public double getY() {
-		return this.y;
-	}
-
-	@Override
-	public void setY(double y) {
-		this.y = y;
+	public void setPolygonCoordinates(final IVector... polygonCoordinates) {
+		this.polygonCoordinates = polygonCoordinates;
 	}
 
 	@Override
@@ -56,9 +31,12 @@ public class CommonEntity implements Serializable, Entity {
 	}
 
 	@Override
-	public void setRotation(double rotation) {
+	public void setRotation(final double rotation) {
 		this.rotation = rotation;
 	}
 
-
+	@Override
+	public BasicVector getCoordinates() {
+		return this.coordinates;
+	}
 }

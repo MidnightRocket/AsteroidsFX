@@ -8,9 +8,9 @@ public interface CollidableEntity extends Entity, GameElement {
 	 * Do NOT call `collide` method on `otherEntity`, this will be done automatically by CollisionProcessor
 	 * `otherEntity` is provided to query which entity it has collided with.
 	 *
-	 * @param world
-	 * @param otherEntity
-	 * @return
+	 * @param world       The {@link World} instance for the game.
+	 * @param otherEntity The entity which has been collided with.
+	 *                    Do NOT alter state of this entity or remove it from the entityManager.
 	 */
-	public void collide(World world, CollidableEntity otherEntity);
+	void collide(final World world, final CollidableEntity otherEntity);
 }

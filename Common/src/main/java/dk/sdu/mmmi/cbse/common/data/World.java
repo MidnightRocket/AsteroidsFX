@@ -4,65 +4,67 @@ import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.utils.CallbackManager;
 import dk.sdu.mmmi.cbse.common.utils.interfaces.Callback;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
+import java.util.HashSet;
+
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 /**
  * @author jcs
  */
 public class World {
-
-	private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
+	private final Collection<Entity> entityMap = new HashSet<>();
 
 	private final CallbackManager<Entity> addEntityCallbacks = new CallbackManager<>();
-
 	private final CallbackManager<Entity> removeEntityCallbacks = new CallbackManager<>();
 
-	public String addEntity(Entity entity) {
-		this.entityMap.put(entity.getId(), entity);
+	public boolean addEntity(final Entity entity) {
+		if (!this.entityMap.add(entity)) return false;
 		this.addEntityCallbacks.callAll(entity);
-		return entity.getId();
+		return true;
 	}
 
-	public void removeEntity(String entityID) {
-		this.removeEntity(this.getEntity(entityID));
-	}
 
-	public void removeEntity(Entity entity) {
-		this.entityMap.remove(entity.getId());
+	public boolean removeEntity(final Entity entity) {
+		if (!this.entityMap.remove(entity)) return false;
 		this.removeEntityCallbacks.callAll(entity);
+		return true;
 	}
 
 	public Collection<Entity> getEntities() {
-		return this.entityMap.values();
+		return Collections.unmodifiableCollection(this.entityMap);
 	}
 
-	@SafeVarargs
-	public final <E extends Entity> List<E> getEntities(Class<E>... entityTypes) {
-		List<E> r = new ArrayList<>();
-		for (Entity e : this.getEntities()) {
-			for (Class<E> entityType : entityTypes) {
-				if (entityType.isInstance(e)) {
-					r.add(entityType.cast(e));
-				}
-			}
-		}
-		return r;
+	/**
+	 * Get a {@link Collections#unmodifiableCollection read-only Collection} containing all entities from this manager of the {@code entityType}.
+	 *
+	 * @param entityType A {@link Class} for the type of entities to retrieve.
+	 * @param <E>        The entity type.
+	 * @return A {@link Collections#unmodifiableCollection read-only Collection} with the entities of {@code entityType}.
+	 */
+	public final <E extends Entity> Collection<E> getEntitiesByClass(final Class<E> entityType) {
+		return this.getEntities().stream().filter(entityType::isInstance).map(entityType::cast).collect(toUnmodifiableSet());
 	}
 
-	public Entity getEntity(String id) {
-		return this.entityMap.get(id);
+	/**
+	 * Remove all entities of a specific type.
+	 *
+	 * @param entityType The type of entities to remove.
+	 * @param <E>        The entity type.
+	 * @return A {@link Collection} of the removed entities.
+	 */
+	public <E extends Entity> Collection<E> removeEntitiesByClass(final Class<E> entityType) {
+		final Collection<E> entities = this.getEntitiesByClass(entityType);
+		entities.forEach(this::removeEntity);
+		return entities;
 	}
 
-
-	public void addEntityAddedCallback(Callback<Entity> callback) {
+	public void addEntityAddedCallback(final Callback<Entity> callback) {
 		this.addEntityCallbacks.add(callback);
 	}
 
-	public void addEntityRemovedCallback(Callback<Entity> callback) {
+	public void addEntityRemovedCallback(final Callback<Entity> callback) {
 		this.removeEntityCallbacks.add(callback);
 	}
 }

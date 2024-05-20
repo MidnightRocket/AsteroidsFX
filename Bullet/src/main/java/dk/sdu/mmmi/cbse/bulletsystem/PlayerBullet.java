@@ -8,7 +8,7 @@ import dk.sdu.mmmi.cbse.common.metadata.GameElementType;
 public class PlayerBullet extends Bullet {
 	private long ttl;
 
-	PlayerBullet(long ttl) {
+	PlayerBullet(final long ttl) {
 		this.ttl = ttl;
 	}
 
@@ -26,7 +26,7 @@ public class PlayerBullet extends Bullet {
 	}
 
 	@Override
-	public void collide(World world, CollidableEntity otherEntity) {
+	public void collide(final World world, final CollidableEntity otherEntity) {
 		if (otherEntity.getElementType() != GameElementType.BULLET) {
 			world.removeEntity(this);
 		}

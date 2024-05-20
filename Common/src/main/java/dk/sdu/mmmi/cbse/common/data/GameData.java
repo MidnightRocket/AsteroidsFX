@@ -16,7 +16,7 @@ public class GameData {
 		return this.displayWidth;
 	}
 
-	public void setDisplayWidth(int width) {
+	public void setDisplayWidth(final int width) {
 		this.displayWidth = width;
 	}
 
@@ -24,12 +24,12 @@ public class GameData {
 		return this.displayHeight;
 	}
 
-	public void setDisplayHeight(int height) {
+	public void setDisplayHeight(final int height) {
 		this.displayHeight = height;
 	}
 
-	public boolean isEntityWithinFrame(Entity entity) {
-		int displayStart = 0;
+	public boolean isEntityWithinFrame(final Entity entity) {
+		final int displayStart = 0;
 		return entity.getX() >= displayStart
 				&& entity.getY() >= displayStart
 				&& entity.getX() <= this.getDisplayWidth()

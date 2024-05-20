@@ -1,16 +1,17 @@
 package dk.sdu.mmmi.cbse.common.interfaces;
 
 /**
- * TODO:.
+ * A Callback which can be used to determine if two {@link CollidableEntity collidable entities} intersects.
  */
 @FunctionalInterface
 public interface IntersectsCallback {
 	/**
-	 * TODO:.
+	 * Called to check if two entities intersects according to the implementation.
 	 *
-	 * @param entity1
-	 * @param entity2
-	 * @return TODO:
+	 * @param entity1 The first {@link CollidableEntity}.
+	 * @param entity2 The second {@link CollidableEntity}.
+	 * @return {@code true} if the two {@link CollidableEntity entities} intersects according to the implementation.
+	 * {@code false} otherwise.
 	 */
-	public boolean intersects(CollidableEntity entity1, CollidableEntity entity2);
+	public boolean intersects(final CollidableEntity entity1, final CollidableEntity entity2);
 }

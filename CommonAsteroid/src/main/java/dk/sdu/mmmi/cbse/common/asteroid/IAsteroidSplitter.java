@@ -7,5 +7,5 @@ import dk.sdu.mmmi.cbse.common.interfaces.Entity;
  * @author corfixen
  */
 public interface IAsteroidSplitter {
-	void createSplitAsteroid(Entity e, World w);
+	void createSplitAsteroid(final Entity e, final World w);
 }

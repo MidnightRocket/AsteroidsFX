@@ -1,21 +1,40 @@
 package dk.sdu.mmmi.cbse.common.interfaces;
 
+import dk.sdu.mmmi.cbse.common.vector.BasicVector;
+import dk.sdu.mmmi.cbse.common.vector.IVector;
+
 public interface Entity {
-	String getId();
+	double[] getPolygonCoordinatesValues();
 
-	double[] getPolygonCoordinates();
+	void setPolygonCoordinates(final IVector... coordinates);
 
-	void setPolygonCoordinates(double... coordinates);
+	default double getX() {
+		return this.getCoordinates().getX();
+	}
 
-	double getX();
+	default void setX(final double x) {
+		this.getCoordinates().setX(x);
+	}
 
-	void setX(double x);
+	default double getY() {
+		return this.getCoordinates().getY();
+	}
 
-	double getY();
-
-	void setY(double y);
+	default void setY(final double y) {
+		this.getCoordinates().setY(y);
+	}
 
 	double getRotation();
 
-	void setRotation(double rotation);
+	void setRotation(final double rotation);
+
+	BasicVector getCoordinates();
+
+	default void move(final IVector direction) {
+		this.getCoordinates().add(direction);
+	}
+
+	default void move(final double x, final double y) {
+		this.move(new BasicVector(x, y));
+	}
 }

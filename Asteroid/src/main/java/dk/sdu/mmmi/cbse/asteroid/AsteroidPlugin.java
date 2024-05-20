@@ -6,35 +6,20 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
-import java.util.Random;
-
 /**
  * @author corfixen
  */
 public class AsteroidPlugin implements IGamePluginService {
 
 	@Override
-	public void start(GameData gameData, World world) {
-		Entity asteroid = this.createAsteroid(gameData);
-		world.addEntity(asteroid);
+	public void start(final GameData gameData, final World world) {
 	}
 
 	@Override
-	public void stop(GameData gameData, World world) {
+	public void stop(final GameData gameData, final World world) {
 		// Remove entities
-		for (Entity asteroid : world.getEntities(Asteroid.class)) {
+		for (final Entity asteroid : world.getEntitiesByClass(Asteroid.class)) {
 			world.removeEntity(asteroid);
 		}
-	}
-
-	private Entity createAsteroid(GameData gameData) {
-		Entity asteroid = new Asteroid();
-		Random rnd = new Random();
-		int size = rnd.nextInt(10) + 5;
-		asteroid.setPolygonCoordinates(size, -size, -size, -size, -size, size, size, size);
-		asteroid.setX(0);
-		asteroid.setY(0);
-		asteroid.setRotation(rnd.nextInt(90));
-		return asteroid;
 	}
 }
