@@ -5,6 +5,7 @@ import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.interfaces.Entity;
+import dk.sdu.mmmi.cbse.common.interfaces.GameElement;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.vector.BasicVector;
 
@@ -31,17 +32,14 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 	}
 
 	@Override
-	public Entity createBullet(final Entity shooter, final GameData gameData) {
-		final PlayerBullet bullet = new PlayerBullet();
+	public Entity createBullet(final GameElement shooter, final GameData gameData) {
+		final PlayerBullet bullet = new PlayerBullet(shooter);
 		bullet.setPolygonCoordinates(
 				new BasicVector(1, -1),
 				new BasicVector(1, 1),
 				new BasicVector(-1, 1),
 				new BasicVector(-1, -1)
 		);
-		bullet.setX(shooter.getX());
-		bullet.setY(shooter.getY());
-		bullet.setRotation(shooter.getRotation());
 		BulletControlSystem.updateBulletPosition(bullet, 5);
 		return bullet;
 	}
