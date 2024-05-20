@@ -3,53 +3,45 @@ package dk.sdu.mmmi.cbse.collisionsystem;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
-import dk.sdu.mmmi.cbse.common.interfaces.IntersectsCallback;
 import dk.sdu.mmmi.cbse.common.services.ICollisionDetectionService;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Stack;
+
 public class CollisionDetector implements ICollisionDetectionService {
-
-	private IntersectsCallback intersectsCallback = new IntersectsCallback() {
-		/*
-		 * Providing default callback which returns false.
-		 * This is to avoid calling method on null pointer.
-		 */
-		@Override
-		public boolean intersects(final CollidableEntity entity1, final CollidableEntity entity2) {
-			return false;
-		}
-	};
-
-	public CollisionDetector() {
-	}
+	private final Collection<CollidableEntityContainer> entities = new HashSet<>();
+	private final Stack<CollidableEntityContainer> toBeAdded = new Stack<>();
+	private final Stack<CollidableEntityContainer> toBeRemoved = new Stack<>();
 
 	@Override
-	public void process(final GameData gameData, final World world) {
+	public void processCollisions(final GameData gameData, final World world) {
+		while (!this.toBeAdded.empty()) {
+			final CollidableEntityContainer c = this.toBeAdded.pop();
+			if (this.toBeRemoved.contains(c)) continue;
+			this.entities.add(c);
+		}
+
 		// two for loops for all entities in the world
-		for (final CollidableEntity entity1 : world.getEntitiesByClass(CollidableEntity.class)) {
-			for (final CollidableEntity entity2 : world.getEntitiesByClass(CollidableEntity.class)) {
-
-				// if the two entities are identical, skip the iteration
-				if (entity1.equals(entity2)) {
-					continue;
-				}
-
-
+		for (final CollidableEntityContainer entity1 : this.entities) {
+			for (final CollidableEntityContainer entity2 : this.entities) {
 				// CollisionDetection
-				if (this.collides(entity1, entity2)) {
-					entity1.collide(world, entity2);
-					entity2.collide(world, entity1);
+				if (entity1.doesCollideWith(entity2)) {
+					entity1.getEntity().collide(world, entity2.getEntity());
 				}
 			}
 		}
 
-	}
-
-	public Boolean collides(final CollidableEntity entity1, final CollidableEntity entity2) {
-		return this.intersectsCallback.intersects(entity1, entity2);
+		while (!this.toBeRemoved.empty()) this.entities.remove(this.toBeRemoved.pop());
 	}
 
 	@Override
-	public void setIntersectsCallback(final IntersectsCallback callback) {
-		this.intersectsCallback = callback;
+	public void addEntity(final CollidableEntity entity) {
+		this.toBeAdded.add(new CollidableEntityContainer(entity));
+	}
+
+	@Override
+	public void removeEntity(final CollidableEntity entity) {
+		this.toBeRemoved.add(new CollidableEntityContainer(entity));
 	}
 }

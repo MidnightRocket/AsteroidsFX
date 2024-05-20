@@ -3,11 +3,11 @@ package dk.sdu.mmmi.cbse.main;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.services.ICollisionDetectionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -32,14 +32,12 @@ public class Main extends Application {
 
 	private final Collection<IGamePluginService> gamePluginServices;
 	private final Collection<IEntityProcessingService> entityProcessingServices;
-	private final Collection<IPostEntityProcessingService> postEntityProcessingServices;
-	private final Collection<ICollisionDetectionService> collisionDetectionServices;
+	private final ICollisionDetectionService collisionDetectionService;
 
 	public Main() {
 		this.gamePluginServices = loadServices(IGamePluginService.class);
 		this.entityProcessingServices = loadServices(IEntityProcessingService.class);
-		this.postEntityProcessingServices = loadServices(IPostEntityProcessingService.class);
-		this.collisionDetectionServices = loadServices(ICollisionDetectionService.class);
+		this.collisionDetectionService = ServiceLoader.load(ICollisionDetectionService.class).findFirst().orElse(new ICollisionDetectionService.Default());
 	}
 
 	private static <S> Collection<S> loadServices(final Class<S> serviceClass) {
@@ -59,12 +57,20 @@ public class Main extends Application {
 		final Scene scene = this.getScene();
 
 		this.world.addEntityAddedCallback(entity -> {
+			if (entity instanceof final CollidableEntity collidableEntity) {
+				this.getCollisionDetectionService().addEntity(collidableEntity);
+			}
+
 			final Polygon polygon = new Polygon(entity.getPolygonCoordinatesValues());
 			this.polygons.put(entity, polygon);
 			this.gameWindow.getChildren().add(polygon);
 		});
 
 		this.world.addEntityRemovedCallback(entity -> {
+			if (entity instanceof final CollidableEntity collidableEntity) {
+				this.getCollisionDetectionService().removeEntity(collidableEntity);
+			}
+
 			final Polygon polygon = this.polygons.remove(entity);
 			if (polygon != null) {
 				this.gameWindow.getChildren().remove(polygon);
@@ -124,22 +130,11 @@ public class Main extends Application {
 	}
 
 	private void update() {
-
 		// Update
 		for (final IEntityProcessingService entityProcessorService : this.getEntityProcessingServices()) {
 			entityProcessorService.process(this.gameData, this.world);
 		}
-		for (final IPostEntityProcessingService postEntityProcessorService : this.getPostEntityProcessingServices()) {
-			postEntityProcessorService.process(this.gameData, this.world);
-		}
-
-		this.getCollisionDetectionServices().forEach(service -> {
-			service.setIntersectsCallback((entity1, entity2) -> {
-				if (!this.polygons.containsKey(entity1) || !this.polygons.containsKey(entity2)) return false;
-				return this.polygons.get(entity1).getBoundsInParent().intersects(this.polygons.get(entity2).getBoundsInParent());
-			});
-			service.process(this.gameData, this.world);
-		});
+		this.getCollisionDetectionService().processCollisions(this.gameData, this.world);
 	}
 
 	private void draw() {
@@ -159,11 +154,7 @@ public class Main extends Application {
 		return this.entityProcessingServices;
 	}
 
-	private Collection<IPostEntityProcessingService> getPostEntityProcessingServices() {
-		return this.postEntityProcessingServices;
-	}
-
-	private Collection<ICollisionDetectionService> getCollisionDetectionServices() {
-		return this.collisionDetectionServices;
+	private ICollisionDetectionService getCollisionDetectionService() {
+		return this.collisionDetectionService;
 	}
 }

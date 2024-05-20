@@ -3,8 +3,17 @@ package dk.sdu.mmmi.cbse.common.interfaces;
 import dk.sdu.mmmi.cbse.common.vector.BasicVector;
 import dk.sdu.mmmi.cbse.common.vector.IVector;
 
+import java.util.Arrays;
+
 public interface Entity {
-	double[] getPolygonCoordinatesValues();
+	default double[] getPolygonCoordinatesValues() {
+		return Arrays.stream(this.getPolygonCoordinates()).mapMultiToDouble((c, output) -> {
+			output.accept(c.getX());
+			output.accept(c.getY());
+		}).toArray();
+	}
+
+	IVector[] getPolygonCoordinates();
 
 	void setPolygonCoordinates(final IVector... coordinates);
 

@@ -13,11 +13,8 @@ public class CommonEntity implements Serializable, Entity {
 	private double rotation;
 
 	@Override
-	public double[] getPolygonCoordinatesValues() {
-		return Arrays.stream(this.polygonCoordinates).mapMultiToDouble((c, output) -> {
-			output.accept(c.getX());
-			output.accept(c.getY());
-		}).toArray();
+	public IVector[] getPolygonCoordinates() {
+		return this.polygonCoordinates;
 	}
 
 	@Override
