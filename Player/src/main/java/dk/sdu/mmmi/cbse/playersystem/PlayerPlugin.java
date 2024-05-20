@@ -28,8 +28,7 @@ public class PlayerPlugin implements IGamePluginService {
 				new BasicVector(10, 0),
 				new BasicVector(-5, 5)
 		);
-		playerShip.setX((double) gameData.getDisplayHeight() / 2);
-		playerShip.setY((double) gameData.getDisplayWidth() / 2);
+		playerShip.setCoordinatesFrom(gameData.getCenter());
 		return playerShip;
 	}
 

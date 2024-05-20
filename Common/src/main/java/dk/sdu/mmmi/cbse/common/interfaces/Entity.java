@@ -33,6 +33,11 @@ public interface Entity {
 		this.getCoordinates().setY(y);
 	}
 
+	default void setCoordinatesFrom(final IVector coordinates) {
+		this.setX(coordinates.getX());
+		this.setY(coordinates.getY());
+	}
+
 	double getRotation();
 
 	void setRotation(final double rotation);

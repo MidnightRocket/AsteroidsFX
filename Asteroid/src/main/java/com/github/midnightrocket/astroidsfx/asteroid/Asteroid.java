@@ -61,11 +61,8 @@ public class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 		asteroid1.setRotation(RANDOM.nextDouble(this.getRotation() - maxRotationalDeviation, this.getRotation() - minRotationalDeviation));
 		asteroid2.setRotation(RANDOM.nextDouble(this.getRotation() + minRotationalDeviation, this.getRotation() + maxRotationalDeviation));
 
-		asteroid1.setX(this.getX());
-		asteroid1.setY(this.getY());
-
-		asteroid2.setX(this.getX());
-		asteroid2.setY(this.getY());
+		asteroid1.setCoordinatesFrom(this.getCoordinates());
+		asteroid2.setCoordinatesFrom(this.getCoordinates());
 
 		world.addEntity(asteroid1);
 		world.addEntity(asteroid2);

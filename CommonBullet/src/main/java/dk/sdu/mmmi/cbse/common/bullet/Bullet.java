@@ -13,8 +13,7 @@ public abstract class Bullet extends CommonEntity implements CollidableEntity {
 
 	protected Bullet(final GameElement shooter) {
 		this.shooter = shooter;
-		this.setX(shooter.getX());
-		this.setY(shooter.getY());
+		this.setCoordinatesFrom(shooter.getCoordinates());
 		this.setRotation(shooter.getRotation());
 	}
 
