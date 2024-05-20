@@ -6,16 +6,16 @@ import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.interfaces.GameElement;
 import dk.sdu.mmmi.cbse.common.metadata.GameElementType;
 
-public class PlayerBullet extends Bullet {
+public class BasicBullet extends Bullet {
 	private long ttl;
 
-	PlayerBullet(final GameElement shooter, final long ttl) {
+	BasicBullet(final GameElement shooter, final long ttl) {
 		super(shooter);
 		this.ttl = ttl;
 	}
 
-	PlayerBullet(final GameElement shooter) {
-		this(shooter, 100);
+	BasicBullet(final GameElement shooter) {
+		this(shooter, 200);
 	}
 
 	boolean isAlive() {

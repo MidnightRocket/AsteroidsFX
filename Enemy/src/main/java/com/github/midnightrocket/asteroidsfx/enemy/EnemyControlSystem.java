@@ -10,7 +10,8 @@ import java.util.ServiceLoader;
 
 public class EnemyControlSystem implements IEntityProcessingService {
 	private static final Random RANDOM = new Random();
-	private static final double RANDOM_ADD_THRESHOLD = 0.997;
+	private static final double RANDOM_ADD_THRESHOLD = 0.995;
+
 	private static final ServiceLoader<BulletSPI> BULLET_SPI_SERVICE_LOADER = ServiceLoader.load(BulletSPI.class);
 
 	private static Enemy createEnemy(final GameData gameData) {

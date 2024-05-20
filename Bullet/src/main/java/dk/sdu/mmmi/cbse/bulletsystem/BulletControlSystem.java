@@ -20,7 +20,7 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 	@Override
 	public void process(final GameData gameData, final World world) {
 
-		for (final PlayerBullet bullet : world.getEntitiesByClass(PlayerBullet.class)) {
+		for (final BasicBullet bullet : world.getEntitiesByClass(BasicBullet.class)) {
 			BulletControlSystem.updateBulletPosition(bullet, this.speed);
 			bullet.decrementTtl();
 			if (!bullet.isAlive() || !gameData.isEntityWithinFrame(bullet)) {
@@ -31,7 +31,7 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
 	@Override
 	public Entity createBullet(final GameElement shooter, final GameData gameData) {
-		final PlayerBullet bullet = new PlayerBullet(shooter);
+		final BasicBullet bullet = new BasicBullet(shooter);
 		bullet.setPolygonCoordinates(
 				new BasicVector(1, -1),
 				new BasicVector(1, 1),

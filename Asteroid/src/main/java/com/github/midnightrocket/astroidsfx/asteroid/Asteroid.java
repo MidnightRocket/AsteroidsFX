@@ -46,8 +46,8 @@ public class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 	}
 
 	private void split(final World world) {
-		final double maxRotationalDeviation = 6;
-		final double minRotationalDeviation = 2;
+		final double maxRotationalDeviation = 30;
+		final double minRotationalDeviation = 20;
 		final double minSizeThreshold = 20;
 
 		world.removeEntity(this);
