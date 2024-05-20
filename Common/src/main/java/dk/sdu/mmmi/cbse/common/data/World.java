@@ -10,9 +10,6 @@ import java.util.HashSet;
 
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
-/**
- * @author jcs
- */
 public class World {
 	private final Collection<Entity> entityMap = new HashSet<>();
 
