@@ -14,13 +14,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
@@ -35,7 +32,8 @@ public class Game {
 	private final Collection<IEntityProcessingService> entityProcessingServices;
 	private final ICollisionDetectionService collisionDetectionService;
 
-	public Game(final Collection<IGamePluginService> gamePluginServices, final Collection<IEntityProcessingService> entityProcessingServices, final ICollisionDetectionService collisionDetectionService) {
+	public Game(final Collection<IGamePluginService> gamePluginServices, final Collection<IEntityProcessingService> entityProcessingServices,
+	            final ICollisionDetectionService collisionDetectionService) {
 		this.gamePluginServices = gamePluginServices;
 		this.entityProcessingServices = entityProcessingServices;
 		this.collisionDetectionService = collisionDetectionService;
@@ -43,9 +41,7 @@ public class Game {
 
 
 	public void start(final Stage window) {
-		final Text text = new Text(10, 20, "Destroyed asteroids: 0");
 		this.gameWindow.setPrefSize(this.gameData.getDisplayWidth(), this.gameData.getDisplayHeight());
-		this.gameWindow.getChildren().add(text);
 
 		final Scene scene = this.getScene();
 

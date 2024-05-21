@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run with server" type="CompoundRunConfigurationType">
+    <toRun name="Clean run" type="MavenRunConfiguration" />
+    <toRun name="ScoringSystemServer" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

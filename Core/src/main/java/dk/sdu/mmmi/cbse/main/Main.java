@@ -11,7 +11,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ModuleConfig.class);
+		final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ModuleConfig.class);
 		final Game game = ctx.getBean(Game.class);
 		game.start(primaryStage);
 	}

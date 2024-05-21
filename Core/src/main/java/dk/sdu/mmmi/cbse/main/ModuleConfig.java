@@ -17,7 +17,7 @@ public class ModuleConfig {
 
 	@Bean
 	public Game game() {
-		return new Game(gamePluginServices(), entityProcessingServiceList(), collisionDetectionServices());
+		return new Game(this.gamePluginServices(), this.entityProcessingServiceList(), this.collisionDetectionServices());
 	}
 
 	@Bean

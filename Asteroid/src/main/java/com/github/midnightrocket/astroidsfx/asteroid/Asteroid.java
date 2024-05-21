@@ -1,17 +1,26 @@
 package com.github.midnightrocket.astroidsfx.asteroid;
 
+import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.interfaces.CollidableEntity;
 import dk.sdu.mmmi.cbse.common.metadata.GameElementType;
 import dk.sdu.mmmi.cbse.common.vector.BasicVector;
 import dk.sdu.mmmi.cbse.common.vector.IVector;
 
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Random;
 
 public final class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 	private static final Random RANDOM = new Random();
+	private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
 	private final double size;
+
 
 	private Asteroid(final double size) {
 		this.size = size;
@@ -42,10 +51,12 @@ public final class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 
 	@Override
 	public void collide(final World world, final CollidableEntity otherEntity) {
-		if (otherEntity.getElementType() == GameElementType.BULLET) this.split(world);
+		if (otherEntity instanceof final Bullet bullet) this.split(world, bullet);
 	}
 
-	private void split(final World world) {
+	private void split(final World world, final Bullet bullet) {
+		if (bullet.getShooter().getElementType() == GameElementType.PLAYER) this.incrementScore(1);
+
 		final double maxRotationalDeviation = 30;
 		final double minRotationalDeviation = 20;
 		final double minSizeThreshold = 20;
@@ -71,5 +82,19 @@ public final class Asteroid extends dk.sdu.mmmi.cbse.common.asteroid.Asteroid {
 
 	double getSpeed() {
 		return 100 / this.size;
+	}
+
+	private void incrementScore(final int points) {
+		final HttpRequest requestAddToScore = HttpRequest.newBuilder()
+				.uri(URI.create("http://localhost:8080/score/add/" + points))
+				.PUT(HttpRequest.BodyPublishers.ofString(""))
+				.build();
+
+		try {
+			HTTP_CLIENT.send(requestAddToScore, HttpResponse.BodyHandlers.ofString());
+		} catch (final ConnectException ignored) {
+		} catch (final IOException | InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
