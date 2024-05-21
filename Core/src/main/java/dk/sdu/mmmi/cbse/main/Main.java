@@ -8,13 +8,13 @@ import dk.sdu.mmmi.cbse.common.interfaces.Entity;
 import dk.sdu.mmmi.cbse.common.services.ICollisionDetectionService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.main.javafxbindings.JavaFxLabelProvider;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Collection;
@@ -50,11 +50,11 @@ public class Main extends Application {
 
 	@Override
 	public void start(final Stage window) {
-		final Text text = new Text(10, 20, "Destroyed asteroids: 0");
 		this.gameWindow.setPrefSize(this.gameData.getDisplayWidth(), this.gameData.getDisplayHeight());
-		this.gameWindow.getChildren().add(text);
 
 		final Scene scene = this.getScene();
+
+		JavaFxLabelProvider.setRoot(this.gameWindow);
 
 		this.world.addEntityAddedCallback(entity -> {
 			if (entity instanceof final CollidableEntity collidableEntity) {
