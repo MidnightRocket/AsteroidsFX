@@ -7,24 +7,17 @@
 		<artifactId>asteroids.jpms</artifactId>
 		<version>1.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>Asteroid</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>SplitPackage</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>Common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>CommonAsteroids</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>CommonAsteroid</artifactId>
-			<version>${project.parent.version}</version>
-			<scope>compile</scope>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>CommonBullet</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

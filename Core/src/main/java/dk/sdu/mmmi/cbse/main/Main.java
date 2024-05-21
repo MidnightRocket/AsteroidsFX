@@ -17,6 +17,12 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -41,7 +47,28 @@ public class Main extends Application {
 	}
 
 	private static <S> Collection<S> loadServices(final Class<S> serviceClass) {
-		return ServiceLoader.load(serviceClass).stream().map(ServiceLoader.Provider::get).toList();
+		return ServiceLoader.load(getModuleLayerFor("plugins"), serviceClass).stream().map(ServiceLoader.Provider::get).toList();
+	}
+
+	private static ModuleLayer getModuleLayerFor(final String path) {
+		final Path pluginDirectory = Paths.get(path);
+
+		final ModuleFinder pluginFinder = ModuleFinder.of(pluginDirectory);
+
+		final Collection<String> pluginNames = pluginFinder
+				.findAll()
+				.stream()
+				.map(ModuleReference::descriptor)
+				.map(ModuleDescriptor::name)
+				.toList();
+
+		final Configuration pluginConfiguration = ModuleLayer.boot()
+				.configuration()
+				.resolve(pluginFinder, ModuleFinder.of(), pluginNames);
+
+		return ModuleLayer
+				.boot()
+				.defineModulesWithOneLoader(pluginConfiguration, ClassLoader.getSystemClassLoader());
 	}
 
 	public static void main(final String[] args) {

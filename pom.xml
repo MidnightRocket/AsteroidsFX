@@ -19,6 +19,7 @@
 		<module>Asteroid</module>
 		<module>Collision</module>
 		<module>Enemy</module>
+		<module>SplitPackage</module>
 	</modules>
 
 	<properties>
