@@ -6,9 +6,9 @@
 		<groupId>dk.sdu.mmmi.cbse</groupId>
 		<artifactId>asteroids.jpms</artifactId>
 		<version>1.0.1-SNAPSHOT</version>
+		<relativePath/>
 	</parent>
 	<artifactId>Asteroid</artifactId>
-	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
